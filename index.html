@@ -2,24 +2,59 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>GLOBALFINANCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             background-color: #0a0e17;
-            color: #fff;
+            color: #ffffff;
             overflow-x: hidden;
+            touch-action: manipulation;
         }
-        
+
+        /* Desktop scrollbar styles */
+        @media (min-width: 577px) {
+            ::-webkit-scrollbar {
+                width: 12px;
+                background-color: #0a0e17;
+            }
+
+            ::-webkit-scrollbar-track {
+                border-radius: 3px;
+                background-color: transparent;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                border-radius: 5px;
+                background-color: #1d4ed8;
+                border: 2px solid #1d4ed8;
+            }
+        }
+
+        /* Hide scrollbar on mobile */
+        @media (max-width: 576px) {
+            html, body {
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE and Edge */
+            }
+
+            html::-webkit-scrollbar, body::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, and other WebKit browsers */
+            }
+        }
+
         header {
-            padding: 20px 5%;
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -27,43 +62,118 @@
             width: 100%;
             z-index: 1000;
             transition: background-color 0.5s ease;
+            background: linear-gradient(45deg, #1e293b, #0a0e17);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         header.scrolled {
-            background-color: rgba(10, 14, 23, 0.95);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #1e293b, #0a0e17);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
         
         .logo {
             font-size: 28px;
             font-weight: 700;
-            color: #fff;
+            color: #ffffff;
             text-decoration: none;
-        }
-        
-        .logo span {
-            color: #4f9aff;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 30px;
-        }
-        
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
             transition: color 0.3s ease;
         }
         
-        nav ul li a:hover {
-            color: #4f9aff;
+        .logo span {
+            color: #3b82f6;
+        }
+        
+        .logo:hover {
+            color: #3b82f6;
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cta-button-nav {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+        }
+        
+        .cta-button-nav:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            padding: 10px;
+        }
+        
+        .hamburger div {
+            width: 32px;
+            height: 4px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active div:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .hamburger.active div:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active div:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+        
+        nav.active {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 80%;
+            max-width: 300px;
+            background: #1e293b;
+            padding: 80px 20px;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        nav {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        @media (min-width: 769px) {
+            nav {
+                transform: none;
+                position: static;
+                height: auto;
+                width: auto;
+                background: none;
+                padding: 0;
+                box-shadow: none;
+            }
+            .hamburger {
+                display: none;
+            }
         }
         
         .hero {
@@ -73,60 +183,65 @@
             padding: 0 5%;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(45deg, #0a0e17, #1e293b);
         }
         
         .hero-content {
-            max-width: 600px;
+            max-width: 700px;
             z-index: 10;
         }
         
         .hero h1 {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             line-height: 1.2;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
         .hero p {
             font-size: 18px;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
             line-height: 1.6;
-            color: #b4c0d3;
+            color: #d1d5db;
         }
         
         .cta-button {
-            background: linear-gradient(45deg, #4f9aff, #1f63cc);
-            color: #fff;
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: #ffffff;
             border: none;
-            padding: 12px 28px;
+            padding: 14px 32px;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 30px;
+            border-radius: 50px;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            min-width: 140px;
+            text-align: center;
         }
         
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(31, 99, 204, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
         
         #globe-container {
             position: absolute;
-            right: -15%;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             width: 800px;
             height: 800px;
             z-index: 5;
-            opacity: 0.8;
+            opacity: 0.9;
+            pointer-events: auto;
         }
         
         .services {
-            padding: 100px 5%;
-            background-color: #0f1620;
+            padding: 80px 5%;
+            background-color: #111827;
         }
         
         .section-title {
@@ -135,58 +250,64 @@
         }
         
         .section-title h2 {
-            font-size: 36px;
-            margin-bottom: 15px;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
         }
         
         .section-title p {
-            color: #b4c0d3;
-            max-width: 700px;
+            color: #d1d5db;
+            max-width: 800px;
             margin: 0 auto;
+            font-size: 18px;
             line-height: 1.6;
         }
         
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 24px;
         }
         
         .service-card {
-            background-color: #171f2e;
-            border-radius: 15px;
-            padding: 30px;
+            background-color: #1f2937;
+            border-radius: 12px;
+            padding: 24px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-12px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
         }
         
         .service-icon {
-            font-size: 40px;
-            color: #4f9aff;
-            margin-bottom: 20px;
+            font-size: 48px;
+            color: #3b82f6;
+            margin-bottom: 24px;
         }
         
         .service-card h3 {
-            margin-bottom: 15px;
-            font-size: 22px;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
         
         .service-card p {
-            color: #b4c0d3;
+            color: #d1d5db;
             line-height: 1.6;
-            margin-bottom: 20px;
+            font-size: 16px;
+            margin-bottom: 24px;
         }
         
         .service-link {
-            color: #4f9aff;
+            color: #3b82f6;
             text-decoration: none;
             font-weight: 600;
+            font-size: 16px;
             display: flex;
             align-items: center;
+            padding: 10px 0;
         }
         
         .service-link svg {
@@ -195,71 +316,76 @@
         }
         
         .service-link:hover svg {
-            transform: translateX(5px);
+            transform: translateX(6px);
         }
         
         .network {
-            padding: 100px 5%;
+            padding: 80px 5%;
             position: relative;
+            background-color: #0a0e17;
         }
         
         .network-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
         }
         
         .network-card {
-            background-color: #171f2e;
-            border-radius: 15px;
-            padding: 25px;
+            background-color: #1f2937;
+            border-radius: 12px;
+            padding: 24px;
             text-align: center;
             transition: transform 0.3s ease;
         }
         
         .network-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-12px);
         }
         
         .network-icon {
-            font-size: 36px;
-            color: #4f9aff;
-            margin-bottom: 15px;
+            font-size: 40px;
+            color: #3b82f6;
+            margin-bottom: 16px;
         }
         
         .network-card h3 {
-            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
         
         .network-card p {
-            color: #b4c0d3;
-            font-size: 14px;
-            margin-bottom: 15px;
+            color: #d1d5db;
+            font-size: 16px;
+            margin-bottom: 16px;
         }
         
         .network-link {
-            color: #4f9aff;
+            color: #3b82f6;
             text-decoration: none;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 16px;
+            padding: 10px 0;
+            display: inline-block;
         }
         
         .testimonials {
-            padding: 100px 5%;
-            background-color: #0f1620;
+            padding: 80px 5%;
+            background-color: #111827;
         }
         
         .testimonial-slider {
-            margin-top: 50px;
+            margin-top: 48px;
             position: relative;
         }
         
         .testimonial {
-            background-color: #171f2e;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 0 15px;
+            background-color: #1f2937;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 0 12px;
             display: none;
         }
         
@@ -269,9 +395,10 @@
         
         .testimonial-text {
             font-style: italic;
-            color: #b4c0d3;
+            color: #d1d5db;
             line-height: 1.6;
-            margin-bottom: 20px;
+            font-size: 16px;
+            margin-bottom: 24px;
         }
         
         .testimonial-author {
@@ -280,51 +407,54 @@
         }
         
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background-color: #4f9aff;
+            background-color: #3b82f6;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
-            color: #fff;
+            margin-right: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #ffffff;
         }
         
         .author-info h4 {
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         
         .author-info p {
             font-size: 14px;
-            color: #b4c0d3;
+            color: #d1d5db;
         }
         
         .slider-dots {
             display: flex;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 24px;
         }
         
         .dot {
-            width: 10px;
-            height: 10px;
-            background-color: #2a3446;
+            width: 14px;
+            height: 14px;
+            background-color: #4b5563;
             border-radius: 50%;
-            margin: 0 5px;
+            margin: 0 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         
         .dot.active {
-            background-color: #4f9aff;
+            background-color: #3b82f6;
         }
         
         .cta {
-            padding: 100px 5%;
+            padding: 80px 5%;
             text-align: center;
+            background: linear-gradient(45deg, #0a0e17, #1e293b);
         }
         
         .cta-content {
@@ -334,33 +464,100 @@
         
         .cta h2 {
             font-size: 36px;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
         }
         
         .cta p {
-            color: #b4c0d3;
-            margin-bottom: 30px;
+            color: #d1d5db;
+            font-size: 18px;
+            margin-bottom: 32px;
             line-height: 1.6;
         }
         
-        .cta .cta-button {
-            margin-top: 20px;
+        .web3-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #1f2937;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .web3-form h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .web3-form input,
+        .web3-form textarea,
+        .web3-form select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #374151;
+            color: #ffffff;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .web3-form select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        
+        .web3-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        
+        .web3-form button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .web3-form button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .web3-status {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #d1d5db;
+            text-align: center;
         }
         
         footer {
             background-color: #0a0e17;
-            padding: 60px 5% 30px;
+            padding: 60px 5% 40px;
         }
         
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
+            gap: 32px;
+            margin-bottom: 48px;
         }
         
         .footer-column h3 {
             font-size: 20px;
+            font-weight: 600;
             margin-bottom: 20px;
             position: relative;
             padding-bottom: 10px;
@@ -371,9 +568,9 @@
             position: absolute;
             left: 0;
             bottom: 0;
-            width: 40px;
+            width: 48px;
             height: 3px;
-            background-color: #4f9aff;
+            background-color: #3b82f6;
         }
         
         .footer-column ul {
@@ -381,62 +578,62 @@
         }
         
         .footer-column ul li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .footer-column ul li a {
-            color: #b4c0d3;
+            color: #d1d5db;
             text-decoration: none;
+            font-size: 16px;
             transition: color 0.3s ease;
+            display: block;
+            padding: 8px 0;
         }
         
         .footer-column ul li a:hover {
-            color: #4f9aff;
+            color: #3b82f6;
         }
         
         .copyright {
             text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #1a2332;
-            color: #b4c0d3;
+            padding-top: 32px;
+            border-top: 1px solid #1f2937;
+            color: #d1d5db;
             font-size: 14px;
         }
 
-        /* Responsive adjustments */
+        /* Mobile-specific styles */
         @media screen and (max-width: 1024px) {
             #globe-container {
-                right: -30%;
-                width: 700px;
-                height: 700px;
+                right: -20%;
+                width: 600px;
+                height: 600px;
+                opacity: 0.7;
             }
             
             .hero h1 {
-                font-size: 40px;
+                font-size: 48px;
             }
         }
         
         @media screen and (max-width: 768px) {
             header {
-                padding: 15px 5%;
+                padding: 12px 5%;
             }
             
             .logo {
                 font-size: 24px;
             }
             
-            nav ul li {
-                margin-left: 15px;
-            }
-            
-            nav ul li a {
-                font-size: 14px;
+            .hamburger {
+                display: flex;
             }
             
             #globe-container {
-                opacity: 0.3;
-                right: -50%;
-                width: 600px;
-                height: 600px;
+                opacity: 0.4;
+                right: -30%;
+                width: 500px;
+                height: 500px;
             }
             
             .hero h1 {
@@ -448,20 +645,46 @@
             }
             
             .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .services {
+                padding: 60px 5%;
+            }
+            
+            .network {
+                padding: 60px 5%;
+            }
+            
+            .testimonials {
+                padding: 60px 5%;
+            }
+            
+            .cta {
+                padding: 60px 5%;
+            }
+            
+            .cta h2 {
                 font-size: 30px;
+            }
+            
+            .web3-form {
+                padding: 20px;
             }
         }
         
         @media screen and (max-width: 576px) {
-            nav ul {
-                display: none;
+            #globe-container {
+                right: 50%;
+                transform: translate(50%, -50%);
+                width: 400px;
+                height: 400px;
+                opacity: 0.3;
             }
             
-            #globe-container {
-                right: 0;
-                transform: translate(30%, -50%);
-                width: 500px;
-                height: 500px;
+            .hero {
+                text-align: center;
+                padding: 80px 5% 40px;
             }
             
             .hero-content {
@@ -469,33 +692,80 @@
             }
             
             .hero h1 {
-                font-size: 32px;
+                font-size: 28px;
             }
             
-            .services-grid, .network-grid {
+            .hero p {
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+            
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 14px;
+                min-width: 120px;
+            }
+            
+            .services-grid, .network-grid, .footer-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .service-card, .network-card {
+                padding: 20px;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+            }
+            
+            .section-title p {
+                font-size: 16px;
+            }
+            
+            .web3-form input,
+            .web3-form textarea,
+            .web3-form select {
+                padding: 12px;
+                font-size: 14px;
+            }
+            
+            .web3-form button {
+                padding: 14px;
+                font-size: 14px;
+            }
+            
+            .footer-column h3 {
+                font-size: 18px;
+            }
+            
+            .footer-column ul li a {
+                font-size: 14px;
+            }
+            
+            .copyright {
+                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
     <header id="header">
-        <a href="#" class="logo">YOUR<span>NAME</span></a>
-        <nav>
-            <ul>
-                <li><a href="#services">Услуги</a></li>
-                <li><a href="#network">Глобальная сеть</a></li>
-                <li><a href="#testimonials">Отзывы</a></li>
-                <li><a href="#contact" class="cta-button">Связаться</a></li>
-            </ul>
+        <a href="#" class="logo">GLOBAL<span>FINANCE</span></a>
+        <nav id="nav">
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <a href="#contact" class="cta-button-nav">Связаться с нами</a>
         </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Глобальные финансовые решения в любой точке мира</h1>
-            <p>Мы предоставляем надежный доступ к финансовым инструментам для понимающих клиентов. Карты, кредиты, переводы – все с максимальной безопасностью и конфиденциальностью.</p>
-            <a href="#services" class="cta-button">Изучить возможности</a>
+            <h1>Финансовая свобода для элиты</h1>
+            <p>Эксклюзивные решения: от анонимных счетов до глобальных переводов и юридических услуг с полной конфиденциальностью.</p>
+            <a href="#services" class="cta-button">Начать</a>
         </div>
         <div id="globe-container"></div>
     </section>
@@ -503,20 +773,20 @@
     <section class="services" id="services">
         <div class="section-title">
             <h2>Наши услуги</h2>
-            <p>Мы предлагаем полный спектр финансовых решений, адаптированных под потребности искушенных клиентов, ценящих надежность и конфиденциальность.</p>
+            <p>Премиум-решения для клиентов, ценящих надежность, конфиденциальность и глобальный охват.</p>
         </div>
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="2" y="5" width="20" height="14" rx="2"></rect>
                         <line x1="2" y1="10" x2="22" y2="10"></line>
                     </svg>
                 </div>
-                <h3>Финансовые карты</h3>
-                <p>Доступ к премиальным картам с расширенными возможностями, анонимные решения и карты с повышенными лимитами для требовательных клиентов.</p>
+                <h3>Премиум-карты</h3>
+                <p>Элитные карты с неограниченными лимитами в 50+ странах.</p>
                 <a href="#" class="service-link">
-                    Подробнее
+                    Узнать больше
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
@@ -524,15 +794,15 @@
             </div>
             <div class="service-card">
                 <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="1" x2="12" y2="23"></line>
                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
                 </div>
                 <h3>Кредитные линии</h3>
-                <p>Индивидуальные кредитные решения с гибкими условиями погашения, оптимизированные под нужды бизнеса и частных лиц.</p>
+                <p>Онлайн-кредиты на крупные суммы в 40 странах.</p>
                 <a href="#" class="service-link">
-                    Подробнее
+                    Узнать больше
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
@@ -540,17 +810,212 @@
             </div>
             <div class="service-card">
                 <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
                         <line x1="9" y1="9" x2="9.01" y2="9"></line>
                         <line x1="15" y1="9" x2="15.01" y2="9"></line>
                     </svg>
                 </div>
-                <h3>Денежные переводы</h3>
-                <p>Моментальные переводы средств в любую точку мира с минимальными комиссиями и повышенным уровнем безопасности.</p>
+                <h3>Глобальные переводы</h3>
+                <p>Мгновенные переводы с низкими комиссиями в 40+ странах.</p>
                 <a href="#" class="service-link">
-                    Подробнее
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                </div>
+                <h3>Виртуальные SIM-карты</h3>
+                <p>Анонимные SIM-карты для связи в 50 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 0 0-9 6h18a10 10 0 0 0-9-6z"></path>
+                        <path d="M12 22a10 10 0 0 0 9-6H3a10 10 0 0 0 9 6z"></path>
+                        <path d="M2 12h20"></path>
+                    </svg>
+                </div>
+                <h3>Снятие наличных</h3>
+                <p>Конфиденциальное снятие наличных в США и 30 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                </div>
+                <h3>Сделки с компаниями</h3>
+                <p>Покупка/продажа компаний в 40 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2 H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </div>
+                <h3>Услуги гражданства</h3>
+                <p>Получение гражданства в 35 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6L9 17l-5-5"></path>
+                    </svg>
+                </div>
+                <h3>Финансовые инструменты</h3>
+                <p>Ваучеры, векселя, банковские чеки в 40 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v.01"></path>
+                        <path d="M12 8a2 2 0 0 0-2 2v2a2 2 0 0 0 4 0v-2a2 2 0 0 0-2-2z"></path>
+                    </svg>
+                </div>
+                <h3>Анонимные счета</h3>
+                <p>Открытие анонимных счетов в 25 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                </div>
+                <h3>Изготовление документов</h3>
+                <p>Конфиденциальное изготовление документов в 35 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20"></path>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3>Юридические услуги</h3>
+                <p>Онлайн-консультации и контракты в 45 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 7h10v10H7z"></path>
+                        <path d="M7 17L17 7"></path>
+                    </svg>
+                </div>
+                <h3>Криптокошельки</h3>
+                <p>Продажа изъятых биткоин-кошельков в 12 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 0 0-9 6h18a10 10 0 0 0-9-6z"></path>
+                        <path d="M12 22a10 10 0 0 0 9-6H3a10 10 0 0 0 9 6z"></path>
+                    </svg>
+                </div>
+                <h3>Базы данных</h3>
+                <p>Продажа баз данных в 32 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <path d="M20 8v6M23 11h-6"></path>
+                    </svg>
+                </div>
+                <h3>Инвестиционные монеты</h3>
+                <p>Продажа инвестиционных монет в 35 странах.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"></path>
+                        <path d="M8 12h8"></path>
+                        <path d="M10 10l-2 2 2 2"></path>
+                        <path d="M14 10l2 2-2 2"></path>
+                    </svg>
+                </div>
+                <h3>Блокировка/разблокировка активов</h3>
+                <p>Услуги управления активами в банках 15 стран.</p>
+                <a href="#" class="service-link">
+                    Узнать больше
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
@@ -561,74 +1026,74 @@
 
     <section class="network" id="network">
         <div class="section-title">
-            <h2>Наша глобальная сеть</h2>
-            <p>Мы присутствуем на всех ключевых платформах для обеспечения лучшего обслуживания наших клиентов по всему миру.</p>
+            <h2>Глобальная сеть</h2>
+            <p>Мы доступны на ведущих мировых платформах для мгновенной и безопасной связи.</p>
         </div>
         <div class="network-grid">
             <div class="network-card">
                 <div class="network-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
                 </div>
                 <h3>Telegram</h3>
-                <p>Мгновенные консультации и безопасные коммуникации через наш защищенный канал.</p>
-                <a href="#" class="network-link">Присоединиться</a>
+                <p>Безопасные консультации 24/7.</p>
+                <a href="https://t.me/globalfinance" class="network-link">Присоединиться</a>
             </div>
             <div class="network-card">
                 <div class="network-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
                 </div>
                 <h3>Signal</h3>
-                <p>Зашифрованные коммуникации для самых требовательных к безопасности клиентов.</p>
-                <a href="#" class="network-link">Подключиться</a>
+                <p>Шифрованная связь для конфиденциальности.</p>
+                <a href="https://signal.group/globalfinance" class="network-link">Подключиться</a>
             </div>
             <div class="network-card">
                 <div class="network-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                     </svg>
                 </div>
                 <h3>Instagram</h3>
-                <p>Актуальные новости и обновления наших финансовых продуктов.</p>
-                <a href="#" class="network-link">Подписаться</a>
+                <p>Новости и эксклюзивные предложения.</p>
+                <a href="https://instagram.com/globalfinance" class="network-link">Подписаться</a>
             </div>
             <div class="network-card">
                 <div class="network-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
                     </svg>
                 </div>
                 <h3>Twitter</h3>
-                <p>Быстрые обновления и важные анонсы для наших клиентов.</p>
-                <a href="#" class="network-link">Следить</a>
+                <p>Обновления в реальном времени.</p>
+                <a href="https://twitter.com/globalfinance" class="network-link">Подписаться</a>
             </div>
         </div>
     </section>
 
     <section class="testimonials" id="testimonials">
         <div class="section-title">
-            <h2>Что говорят наши клиенты</h2>
-            <p>Реальные отзывы от людей, которые доверяют нам свои финансовые вопросы по всему миру.</p>
+            <h2>Отзывы клиентов</h2>
+            <p>Истории успеха тех, кто доверил нам свои цели.</p>
         </div>
         <div class="testimonial-slider">
             <div class="testimonial active">
-                <p class="testimonial-text">"Уже более трех лет пользуюсь их картами для международных операций. Надежность и конфиденциальность всегда на высоте. Особенно ценю отсутствие лишних вопросов и индивидуальный подход."</p>
+                <p class="testimonial-text">"Анонимные счета и премиум-карты — настоящая финансовая свобода."</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">АМ</div>
                     <div class="author-info">
                         <h4>Алексей М.</h4>
-                        <p>Предприниматель, Москва</p>
+                        <p>Предприниматель, Нью-Йорк</p>
                     </div>
                 </div>
             </div>
             <div class="testimonial">
-                <p class="testimonial-text">"Их кредитные решения помогли моему бизнесу выйти на новый уровень. Гибкие условия и профессиональная поддержка – это то, что отличает их от других."</p>
+                <p class="testimonial-text">"Кредиты и юридические услуги на высшем уровне."</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">ЕК</div>
                     <div class="author-info">
@@ -638,7 +1103,7 @@
                 </div>
             </div>
             <div class="testimonial">
-                <p class="testimonial-text">"Переводы по всему миру выполняются моментально и с минимальными комиссиями. Это идеальное решение для тех, кто ценит время и деньги."</p>
+                <p class="testimonial-text">"Глобальные переводы — быстро и безопасно."</p>
                 <div class="testimonial-author">
                     <div class="author-avatar">ВН</div>
                     <div class="author-info">
@@ -657,448 +1122,564 @@
 
     <section class="cta" id="contact">
         <div class="cta-content">
-            <h2>Готовы начать сотрудничество?</h2>
-            <p>Наши консультанты доступны 24/7 для обсуждения ваших финансовых потребностей. Мы гарантируем полную конфиденциальность при обращении.</p>
-            <a href="#" class="cta-button">Связаться с нами</a>
+            <h2>Станьте нашим партнером</h2>
+            <p>Свяжитесь с нами через защищенную форму для конфиденциального сотрудничества.</p>
+            <div class="web3-form">
+                <h3>Связаться с нами</h3>
+                <form action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                    <input type="text" name="name" placeholder="Имя" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <select name="service" required>
+                        <option value="" disabled selected>Интересующая услуга</option>
+                        <option value="Премиум-карты">Премиум-карты</option>
+                        <option value="Кредитные линии">Кредитные линии</option>
+                        <option value="Глобальные переводы">Глобальные переводы</option>
+                        <option value="Виртуальные SIM-карты">Виртуальные SIM-карты</option>
+                        <option value="Снятие наличных">Снятие наличных</option>
+                        <option value="Сделки с компаниями">Сделки с компаниями</option>
+                        <option value="Услуги гражданства">Услуги гражданства</option>
+                        <option value="Финансовые инструменты">Финансовые инструменты</option>
+                        <option value="Анонимные счета">Анонимные счета</option>
+                        <option value="Изготовление документов">Изготовление документов</option>
+                        <option value="Юридические услуги">Юридические услуги</option>
+                        <option value="Криптокошельки">Криптокошельки</option>
+                        <option value="Базы данных">Базы данных</option>
+                        <option value="Инвестиционные монеты">Инвестиционные монеты</option>
+                        <option value="Блокировка/разблокировка активов">Блокировка/разблокировка активов</option>
+                    </select>
+                    <textarea name="message" placeholder="Сообщение" required></textarea>
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                    <button type="submit">Отправить</button>
+                </form>
+                <p class="web3-status" id="form-status">Используйте форму для безопасной связи.</p>
+            </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-grid">
             <div class="footer-column">
-                <h3>О компании</h3>
+                <h3>О нас</h3>
                 <ul>
-                    <li><a href="#">Наша миссия</a></li>
+                    <li><a href="#">Миссия</a></li>
                     <li><a href="#">Команда</a></li>
                     <li><a href="#">Безопасность</a></li>
-                    <li><a href="#">Партнерство</a></li>
+                    <li><a href="#">Партнерства</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Услуги</h3>
                 <ul>
-                    <li><a href="#">Финансовые карты</a></li>
-                    <li><a href="#">Кредитные линии</a></li>
-                    <li><a href="#">Денежные переводы</a></li>
-                    <li><a href="#">Консультации</a></li>
+                    <li><a href="#">Карты</a></li>
+                    <li><a href="#">Кредиты</a></li>
+                    <li><a href="#">Переводы</a></li>
+                    <li><a href="#">Юридические</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Поддержка</h3>
                 <ul>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Часто задаваемые вопросы</a></li>
                     <li><a href="#">Контакты</a></li>
-                    <li><a href="#">Безопасность</a></li>
-                    <li><a href="#">Правовая информация</a></li>
+                    <li><a href="#">Конфиденциальность</a></li>
+                    <li><a href="#">Юридическая информация</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Социальные сети</h3>
                 <ul>
-                    <li><a href="#">Telegram</a></li>
-                    <li><a href="#">Signal</a></li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Twitter</a></li>
+                    <li><a href="https://t.me/globalfinance">Telegram</a></li>
+                    <li><a href="https://signal.group/globalfinance">Signal</a></li>
+                    <li><a href="https://instagram.com/globalfinance">Instagram</a></li>
+                    <li><a href="https://twitter.com/globalfinance">Twitter</a></li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            <p>© 2025 Global Finance. Все права защищены.</p>
+            <p>© 2025 Глобальные Финансовые Решения. Все права защищены. Формы отправляются через Web3Forms для максимальной безопасности.</p>
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script>
         // Header scroll effect
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
+            if (header) {
+                header.classList.toggle('scrolled', window.scrollY > 50);
             } else {
-                header.classList.remove('scrolled');
+                console.error('Header element not found');
             }
         });
 
-        // Улучшенный 3D Глобус
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+        if (hamburger && nav) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            // Close menu when clicking link
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+        } else {
+            console.error('Hamburger or nav element not found');
+        }
+
+        // Smooth scrolling for anchor links
+        const anchors = document.querySelectorAll('a[href^="#"]');
+        if (anchors.length > 0) {
+            anchors.forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = anchor.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const header = document.getElementById('header');
+                        const headerHeight = header ? header.offsetHeight : 0;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        try {
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        } catch (err) {
+                            console.error('Smooth scroll failed:', err);
+                            window.scrollTo(0, targetPosition); // Fallback
+                        }
+                    } else {
+                        console.warn(`Target element #${targetId} not found`);
+                    }
+                });
+            });
+        } else {
+            console.warn('No anchor links found for smooth scrolling');
+        }
+
+        // 3D Globe with English labels
         const initGlobe = () => {
             const container = document.getElementById('globe-container');
-            
-            // Scene, camera, renderer
+            if (!container) {
+                console.error('Globe container not found');
+                return;
+            }
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js library not loaded');
+                return;
+            }
+
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            
             renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             container.appendChild(renderer.domElement);
-            
-            // Базовый глобус
-            const globeRadius = 5;
+
+            const textureLoader = new THREE.TextureLoader();
+            const loadTexture = (url, fallbackColor) => {
+                try {
+                    return textureLoader.load(url, undefined, undefined, (err) => {
+                        console.warn(`Failed to load texture ${url}:`, err);
+                        return new THREE.Texture();
+                    });
+                } catch (err) {
+                    console.error(`Error loading texture ${url}:`, err);
+                    return new THREE.Texture();
+                }
+            };
+
+            const earthMap = loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg', 0x888888);
+            const earthNormalMap = loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_normal_2048.jpg', 0x888888);
+            const earthSpecularMap = loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg', 0x888888);
+            const cloudMap = loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_2048.jpg', 0x888888);
+            const starMap = loadTexture('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/stars/starmap_4k.jpg', 0x000000);
+
+            const globeRadius = window.innerWidth <= 576 ? 3.5 : 4.5;
+
             const earthGeometry = new THREE.SphereGeometry(globeRadius, 64, 64);
             const earthMaterial = new THREE.MeshPhongMaterial({
-                color: 0x3344aa,
-                shininess: 10,
-                transparent: true,
-                opacity: 0.9
+                map: earthMap,
+                normalMap: earthNormalMap,
+                specularMap: earthSpecularMap,
+                shininess: 40,
+                normalScale: new THREE.Vector2(0.9, 0.9)
             });
-            
             const earth = new THREE.Mesh(earthGeometry, earthMaterial);
             scene.add(earth);
-            
-            // Атмосфера
-            const atmosphereGeometry = new THREE.SphereGeometry(globeRadius * 1.05, 64, 64);
+
+            const cloudGeometry = new THREE.SphereGeometry(globeRadius * 1.01, 64, 64);
+            const cloudMaterial = new THREE.MeshPhongMaterial({
+                map: cloudMap,
+                transparent: true,
+                opacity: 0.5,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+            const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+            scene.add(clouds);
+
+            const atmosphereGeometry = new THREE.SphereGeometry(globeRadius * 1.06, 64, 64);
             const atmosphereMaterial = new THREE.MeshPhongMaterial({
-                color: 0x4f9aff,
-                shininess: 15,
-                opacity: 0.2,
+                color: 0x3b82f6,
+                shininess: 20,
+                opacity: 0.35,
                 transparent: true,
                 side: THREE.BackSide
             });
-            
             const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
             scene.add(atmosphere);
-            
-            // Добавляем страны с GeoJSON-подобными данными
-            const countriesData = [
-                { name: "North America", center: { lat: 40, lng: -100 }, radius: 1.2 },
-                { name: "South America", center: { lat: -20, lng: -60 }, radius: 1 },
-                { name: "Europe", center: { lat: 50, lng: 10 }, radius: 0.8 },
-                { name: "Africa", center: { lat: 0, lng: 20 }, radius: 1.2 },
-                { name: "Asia", center: { lat: 40, lng: 90 }, radius: 1.5 },
-                { name: "Australia", center: { lat: -25, lng: 135 }, radius: 0.8 },
-                { name: "Russia", center: { lat: 60, lng: 100 }, radius: 1.2 },
-                { name: "Antarctica", center: { lat: -80, lng: 0 }, radius: 0.8 },
-            ];
-            
-            // Крупные города мира
+
+            const starGeometry = new THREE.SphereGeometry(60, 64, 64);
+            const starMaterial = new THREE.MeshBasicMaterial({
+                map: starMap,
+                side: THREE.BackSide
+            });
+            const stars = new THREE.Mesh(starGeometry, starMaterial);
+            scene.add(stars);
+
             const majorCities = [
                 { name: "New York", lat: 40.7128, lng: -74.0060 },
                 { name: "London", lat: 51.5074, lng: -0.1278 },
                 { name: "Tokyo", lat: 35.6762, lng: 139.6503 },
-                { name: "Moscow", lat: 55.7558, lng: 37.6173 },
-                { name: "Beijing", lat: 39.9042, lng: 116.4074 },
-                { name: "Sydney", lat: -33.8688, lng: 151.2093 },
-                { name: "Dubai", lat: 25.2048, lng: 55.2708 },
-                { name: "Paris", lat: 48.8566, lng: 2.3522 },
-                { name: "Singapore", lat: 1.3521, lng: 103.8198 },
-                { name: "Los Angeles", lat: 34.0522, lng: -118.2437 },
-                { name: "Rio de Janeiro", lat: -22.9068, lng: -43.1729 },
                 { name: "Hong Kong", lat: 22.3193, lng: 114.1694 },
-                { name: "Rome", lat: 41.9028, lng: 12.4964 },
+                { name: "Singapore", lat: 1.3521, lng: 103.8198 },
+                { name: "Dubai", lat: 25.2048, lng: 55.2708 },
+                { name: "Shanghai", lat: 31.2304, lng: 121.4737 },
+                { name: "Paris", lat: 48.8566, lng: 2.3522 },
+                { name: "Frankfurt", lat: 50.1109, lng: 8.6821 },
+                { name: "Sydney", lat: -33.8688, lng: 151.2093 },
+                { name: "Moscow", lat: 55.7558, lng: 37.6173 },
+                { name: "Zurich", lat: 47.3769, lng: 8.5417 },
                 { name: "Mumbai", lat: 19.0760, lng: 72.8777 },
-                { name: "Cairo", lat: 30.0444, lng: 31.2357 },
-                { name: "Bangkok", lat: 13.7563, lng: 100.5018 },
-                { name: "Mexico City", lat: 19.4326, lng: -99.1332 },
-                { name: "Berlin", lat: 52.5200, lng: 13.4050 },
+                { name: "Sao Paulo", lat: -23.5505, lng: -46.6333 },
                 { name: "Toronto", lat: 43.6532, lng: -79.3832 },
-                { name: "Johannesburg", lat: -26.2041, lng: 28.0473 }
+                { name: "Seoul", lat: 37.5665, lng: 126.9780 },
+                { name: "Bangkok", lat: 13.7563, lng: 100.5018 },
+                { name: "Johannesburg", lat: -26.2041, lng: 28.0473 },
+                { name: "Riyadh", lat: 24.7136, lng: 46.6753 },
+                { name: "Mexico City", lat: 19.4326, lng: -99.1332 }
             ];
-            
-            // Функция конвертации геокоординат в координаты сферы
+
+            const keyCountries = [
+                { name: "United States", lat: 37.0902, lng: -95.7129 },
+                { name: "China", lat: 35.8617, lng: 104.1954 },
+                { name: "United Kingdom", lat: 55.3781, lng: -3.4360 },
+                { name: "Japan", lat: 36.2048, lng: 138.2529 },
+                { name: "United Arab Emirates", lat: 23.4241, lng: 53.8478 },
+                { name: "Singapore", lat: 1.3521, lng: 103.8198 },
+                { name: "Germany", lat: 51.1657, lng: 10.4515 },
+                { name: "Russia", lat: 61.5240, lng: 105.3188 },
+                { name: "India", lat: 20.5937, lng: 78.9629 },
+                { name: "Brazil", lat: -14.2350, lng: -51.9253 },
+                { name: "Australia", lat: -25.2744, lng: 133.7751 },
+                { name: "Canada", lat: 56.1304, lng: -106.3468 },
+                { name: "South Korea", lat: 35.9078, lng: 127.7669 },
+                { name: "Saudi Arabia", lat: 23.8859, lng: 45.0792 },
+                { name: "Mexico", lat: 23.6345, lng: -102.5528 },
+                { name: "South Africa", lat: -30.5595, lng: 22.9375 },
+                { name: "Thailand", lat: 15.8700, lng: 100.9925 },
+                { name: "Switzerland", lat: 46.8182, lng: 8.2275 }
+            ];
+
             const latLngToSphere = (lat, lng, radius) => {
                 const phi = (90 - lat) * (Math.PI / 180);
                 const theta = (lng + 180) * (Math.PI / 180);
-                
                 const x = -(radius * Math.sin(phi) * Math.cos(theta));
                 const z = (radius * Math.sin(phi) * Math.sin(theta));
                 const y = (radius * Math.cos(phi));
-                
                 return { x, y, z };
             };
-            
-            // Создаем континенты
-            const continentsGroup = new THREE.Group();
-            countriesData.forEach(country => {
-                const { lat, lng } = country.center;
-                const position = latLngToSphere(lat, lng, globeRadius + 0.01);
-                
-                // Создаем "диск" для континента
-                const segmentGeometry = new THREE.CircleGeometry(country.radius, 32);
-                const segmentMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x50C878,
-                    transparent: true,
-                    opacity: 0.7,
-                    side: THREE.DoubleSide
-                });
-                
-                const segment = new THREE.Mesh(segmentGeometry, segmentMaterial);
-                
-                // Позиционируем и ориентируем континент
-                segment.position.set(position.x, position.y, position.z);
-                segment.lookAt(0, 0, 0);
-                
-                continentsGroup.add(segment);
-            });
-            
-            scene.add(continentsGroup);
-            
-            // Создаем города (точки)
+
             const citiesGroup = new THREE.Group();
             const cityMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-            
             majorCities.forEach(city => {
-                const position = latLngToSphere(city.lat, city.lng, globeRadius + 0.08);
-                
-                // Точка города
-                const cityGeometry = new THREE.SphereGeometry(0.07, 16, 16);
+                const position = latLngToSphere(city.lat, city.lng, globeRadius + 0.1);
+                const cityGeometry = new THREE.SphereGeometry(window.innerWidth <= 576 ? 0.05 : 0.06, 16, 16);
                 const cityPoint = new THREE.Mesh(cityGeometry, cityMaterial);
                 cityPoint.position.set(position.x, position.y, position.z);
-                
-                // Пульсирующий эффект
-                cityPoint.userData = { 
+                cityPoint.userData = {
                     originalScale: cityPoint.scale.clone(),
                     name: city.name,
                     pulseFactor: 1.0 + Math.random() * 0.5
                 };
-                
                 citiesGroup.add(cityPoint);
             });
-            
             scene.add(citiesGroup);
-            
-            // Соединения между некоторыми городами
-            const connectionsGroup = new THREE.Group();
-            const connectionMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x4f9aff, 
-                transparent: true,
-                opacity: 0.6
+
+            const countryLabelsGroup = new THREE.Group();
+            keyCountries.forEach(country => {
+                const position = latLngToSphere(country.lat, country.lng, globeRadius + 0.15);
+                const canvas = document.createElement('canvas');
+                canvas.width = window.innerWidth <= 576 ? 192 : 256;
+                canvas.height = window.innerWidth <= 576 ? 48 : 64;
+                const context = canvas.getContext('2d');
+                context.font = `Bold ${window.innerWidth <= 576 ? '30px' : '40px'} Inter`;
+                context.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                context.textAlign = 'center';
+                context.fillText(country.name, canvas.width / 2, canvas.height * 0.75);
+                const texture = new THREE.CanvasTexture(canvas);
+                const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+                const sprite = new THREE.Sprite(spriteMaterial);
+                sprite.position.set(position.x, position.y, position.z);
+                sprite.scale.set(window.innerWidth <= 576 ? 0.75 : 1, window.innerWidth <= 576 ? 0.1875 : 0.25, 1);
+                countryLabelsGroup.add(sprite);
             });
-            
-            // Создаем случайные соединения между важными финансовыми центрами
-            const financialRoutes = [
-                [0, 1], // New York - London
-                [1, 2], // London - Tokyo
-                [2, 4], // Tokyo - Beijing
-                [4, 7], // Beijing - Paris
-                [7, 3], // Paris - Moscow
-                [3, 0], // Moscow - New York
-                [0, 9], // New York - Los Angeles
-                [1, 7], // London - Paris
-                [8, 2], // Singapore - Tokyo
-                [6, 8], // Dubai - Singapore
-                [5, 10], // Sydney - Rio
-                [10, 0], // Rio - New York
-                [2, 11]  // Tokyo - Hong Kong
-            ];
-            
-            financialRoutes.forEach(([startIdx, endIdx]) => {
-                const startCity = majorCities[startIdx];
-                const endCity = majorCities[endIdx];
-                
-                const startPos = latLngToSphere(startCity.lat, startCity.lng, globeRadius + 0.1);
-                const endPos = latLngToSphere(endCity.lat, endCity.lng, globeRadius + 0.1);
-                
-                // Создаем кривую для соединения
-                const curvePoints = [];
-                const midPoint = new THREE.Vector3(
-                    (startPos.x + endPos.x) * 0.5,
-                    (startPos.y + endPos.y) * 0.5,
-                    (startPos.z + endPos.z) * 0.5
-                );
-                const distance = new THREE.Vector3(startPos.x, startPos.y, startPos.z)
-                    .distanceTo(new THREE.Vector3(endPos.x, endPos.y, endPos.z));
-                
-                // Искривляем линию от поверхности
-                midPoint.normalize().multiplyScalar(globeRadius + 0.3 + distance * 0.15);
-                
-                // Создаем кривую
-                const curve = new THREE.QuadraticBezierCurve3(
-                    new THREE.Vector3(startPos.x, startPos.y, startPos.z),
-                    midPoint,
-                    new THREE.Vector3(endPos.x, endPos.y, endPos.z)
-                );
-                
-                // Создаем точки на кривой
-                const points = curve.getPoints(50);
-                const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                
-                const line = new THREE.Line(geometry, connectionMaterial);
-                connectionsGroup.add(line);
-            });
-            
-            scene.add(connectionsGroup);
-            
-            // Подсветка при наведении
+            scene.add(countryLabelsGroup);
+
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
-            
-            container.addEventListener('mousemove', event => {
-                // Вычисляем позицию мыши в нормализованных координатах (-1 до +1)
+            const onMouseMove = event => {
                 const rect = renderer.domElement.getBoundingClientRect();
                 mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
                 mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            });
-            
-            // Добавляем метки для городов
+            };
+            container.addEventListener('mousemove', onMouseMove);
+            container.addEventListener('touchmove', event => {
+                event.preventDefault();
+                const touch = event.touches[0];
+                const rect = renderer.domElement.getBoundingClientRect();
+                mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+            }, { passive: false });
+
             const cityLabelsElement = document.createElement('div');
-            cityLabelsElement.className = 'city-labels';
             cityLabelsElement.style.position = 'absolute';
             cityLabelsElement.style.top = '0';
             cityLabelsElement.style.left = '0';
             cityLabelsElement.style.pointerEvents = 'none';
             cityLabelsElement.style.color = 'white';
-            cityLabelsElement.style.fontWeight = 'bold';
+            cityLabelsElement.style.fontFamily = 'Inter, sans-serif';
+            cityLabelsElement.style.fontWeight = '600';
             cityLabelsElement.style.textShadow = '0 0 5px rgba(0,0,0,0.8)';
             container.appendChild(cityLabelsElement);
-            
-            // Освещение
-            const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.7);
             scene.add(ambientLight);
-            
-            const pointLight = new THREE.PointLight(0xffffff, 1.5);
-            pointLight.position.set(15, 15, 15);
+            const sunLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            sunLight.position.set(20, 10, 20);
+            scene.add(sunLight);
+            const pointLight = new THREE.PointLight(0xffffff, 0.7, 50);
+            pointLight.position.set(-20, -10, -20);
             scene.add(pointLight);
-            
-            // Начальное положение камеры
-            camera.position.z = 15;
-            
-            // Интерактивность - вращение глобуса
-            let isDragging = false;
-            let previousMousePosition = { x: 0, y: 0 };
-            const globeRotation = new THREE.Vector2();
-            let autoRotate = true;
-            
-            container.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                previousMousePosition = {
-                    x: e.clientX,
-                    y: e.clientY
-                };
-                autoRotate = false;
-            });
-            
-            window.addEventListener('mouseup', () => {
-                isDragging = false;
-                setTimeout(() => {
-                    autoRotate = true;
-                }, 3000); // Возобновляем автовращение через 3 секунды
-            });
-            
-            window.addEventListener('mousemove', (e) => {
-                if (isDragging) {
-                    const deltaMove = {
-                        x: e.clientX - previousMousePosition.x,
-                        y: e.clientY - previousMousePosition.y
-                    };
-                    
-                    globeRotation.x += deltaMove.y * 0.005;
-                    globeRotation.y += deltaMove.x * 0.005;
-                    
-                    // Ограничиваем вращение по оси X
-                    globeRotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, globeRotation.x));
-                    
-                    previousMousePosition = {
-                        x: e.clientX,
-                        y: e.clientY
-                    };
-                }
-            });
-            
-            // Анимация
-            let lastTime = 0;
-            const animate = (time) => {
-                const delta = time - lastTime;
-                lastTime = time;
-                
-                requestAnimationFrame(animate);
-                
-                // Автовращение, если не перетаскиваем глобус
-                if (autoRotate) {
-                    globeRotation.y += 0.001;
-                }
-                
-                // Применяем текущее вращение
-                earth.rotation.x = globeRotation.x;
-                earth.rotation.y = globeRotation.y;
-                atmosphere.rotation.x = globeRotation.x;
-                atmosphere.rotation.y = globeRotation.y;
-                continentsGroup.rotation.x = globeRotation.x;
-                continentsGroup.rotation.y = globeRotation.y;
-                citiesGroup.rotation.x = globeRotation.x;
-                citiesGroup.rotation.y = globeRotation.y;
-                connectionsGroup.rotation.x = globeRotation.x;
-                connectionsGroup.rotation.y = globeRotation.y;
-                
-                // Пульсация городов
-                citiesGroup.children.forEach(city => {
-                    const pulseFactor = 1.0 + Math.sin(time * 0.002 * city.userData.pulseFactor) * 0.2;
-                    city.scale.set(pulseFactor, pulseFactor, pulseFactor);
-                });
-                
-                // Рейкаст для проверки наведения мыши
-                raycaster.setFromCamera(mouse, camera);
-                const intersects = raycaster.intersectObjects(citiesGroup.children);
-                
-                // Очищаем метки городов
-                cityLabelsElement.innerHTML = '';
-                
-                // Подсвечиваем города под курсором и показываем метки
-                citiesGroup.children.forEach(city => {
-                    city.material.color.set(0xffff00); // Сброс к обычному цвету
-                });
-                
-                if (intersects.length > 0) {
-                    const cityMesh = intersects[0].object;
-                    cityMesh.material.color.set(0xff0000); // Красный при наведении
-                    
-                    // Создаем метку города
-                    const screenPosition = intersects[0].point.clone();
-                    screenPosition.project(camera);
-                    
-                    const labelDiv = document.createElement('div');
-                    labelDiv.textContent = cityMesh.userData.name;
-                    labelDiv.style.position = 'absolute';
-                    labelDiv.style.left = (screenPosition.x * 0.5 + 0.5) * container.clientWidth + 'px';
-                    labelDiv.style.top = (-(screenPosition.y * 0.5) + 0.5) * container.clientHeight + 'px';
-                    labelDiv.style.fontSize = '14px';
-                    labelDiv.style.fontWeight = 'bold';
-                    labelDiv.style.padding = '4px 8px';
-                    labelDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
-                    labelDiv.style.borderRadius = '4px';
-                    labelDiv.style.transform = 'translate(-50%, -100%)';
-                    
-                    cityLabelsElement.appendChild(labelDiv);
-                }
-                
-                renderer.render(scene, camera);
-            };
-            
-            animate(0);
-            
-            // Обработка изменения размера окна
-            window.addEventListener('resize', () => {
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                
-                renderer.setSize(width, height);
-            });
-        };
+            camera.position.z = window.innerWidth <= 576 ? 8 : 10;
 
-        // Initialize globe when page loads
-        window.addEventListener('load', initGlobe);
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+let rotationSpeed = 0.001;
 
-        // Simple slider functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const dots = document.querySelectorAll('.dot');
-            const testimonials = document.querySelectorAll('.testimonial');
-            
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    // Remove active class from all dots and testimonials
-                    dots.forEach(d => d.classList.remove('active'));
-                    testimonials.forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to current dot and testimonial
-                    dot.classList.add('active');
-                    if (testimonials[index]) {
-                        testimonials[index].classList.add('active');
-                    }
-                });
-            });
+const onMouseDown = event => {
+    isDragging = true;
+    previousMousePosition = { x: event.clientX, y: event.clientY };
+};
+
+const onMouseMoveDrag = event => {
+    if (!isDragging) return;
+    const deltaMove = {
+        x: event.clientX - previousMousePosition.x,
+        y: event.clientY - previousMousePosition.y
+    };
+    earth.rotation.y += deltaMove.x * 0.005;
+    clouds.rotation.y += deltaMove.x * 0.005;
+    citiesGroup.rotation.y += deltaMove.x * 0.005;
+    countryLabelsGroup.rotation.y += deltaMove.x * 0.005;
+    atmosphere.rotation.y += deltaMove.x * 0.005;
+    previousMousePosition = { x: event.clientX, y: event.clientY };
+};
+
+const onMouseUp = () => {
+    isDragging = false;
+};
+
+container.addEventListener('mousedown', onMouseDown);
+container.addEventListener('mousemove', onMouseMoveDrag);
+container.addEventListener('mouseup', onMouseUp);
+container.addEventListener('touchstart', event => {
+    isDragging = true;
+    const touch = event.touches[0];
+    previousMousePosition = { x: touch.clientX, y: touch.clientY };
+}, { passive: false });
+container.addEventListener('touchmove', event => {
+    event.preventDefault();
+    if (!isDragging) return;
+    const touch = event.touches[0];
+    const deltaMove = {
+        x: touch.clientX - previousMousePosition.x,
+        y: touch.clientY - previousMousePosition.y
+    };
+    earth.rotation.y += deltaMove.x * 0.005;
+    clouds.rotation.y += deltaMove.x * 0.005;
+    citiesGroup.rotation.y += deltaMove.x * 0.005;
+    countryLabelsGroup.rotation.y += deltaMove.x * 0.005;
+    atmosphere.rotation.y += deltaMove.x * 0.005;
+    previousMousePosition = { x: touch.clientX, y: touch.clientY };
+}, { passive: false });
+container.addEventListener('touchend', () => {
+    isDragging = false;
+});
+
+const animate = () => {
+    requestAnimationFrame(animate);
+
+    if (!isDragging) {
+        earth.rotation.y += rotationSpeed;
+        clouds.rotation.y += rotationSpeed * 1.1;
+        citiesGroup.rotation.y += rotationSpeed;
+        countryLabelsGroup.rotation.y += rotationSpeed;
+        atmosphere.rotation.y += rotationSpeed * 0.95;
+    }
+
+    citiesGroup.children.forEach(city => {
+        const pulseSpeed = 0.02;
+        const pulseScale = Math.sin(Date.now() * pulseSpeed * city.userData.pulseFactor) * 0.1 + 1;
+        city.scale.set(
+            city.userData.originalScale.x * pulseScale,
+            city.userData.originalScale.y * pulseScale,
+            city.userData.originalScale.z * pulseScale
+        );
+    });
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(citiesGroup.children);
+    cityLabelsElement.innerHTML = '';
+    if (intersects.length > 0) {
+        const city = intersects[0].object;
+        const pos = city.position.clone().project(camera);
+        const x = (pos.x * 0.5 + 0.5) * container.clientWidth;
+        const y = (-pos.y * 0.5 + 0.5) * container.clientHeight;
+        cityLabelsElement.style.fontSize = window.innerWidth <= 576 ? '12px' : '16px';
+        cityLabelsElement.style.left = `${x}px`;
+        cityLabelsElement.style.top = `${y - 20}px`;
+        cityLabelsElement.textContent = city.userData.name;
+    }
+
+    try {
+        renderer.render(scene, camera);
+    } catch (err) {
+        console.error('Rendering failed:', err);
+    }
+};
+
+animate();
+
+const onWindowResize = () => {
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+};
+
+window.addEventListener('resize', onWindowResize);
+
+return () => {
+    window.removeEventListener('resize', onWindowResize);
+    container.removeEventListener('mousedown', onMouseDown);
+    container.removeEventListener('mousemove', onMouseMove);
+    container.removeEventListener('mousemove', onMouseMoveDrag);
+    container.removeEventListener('mouseup', onMouseUp);
+    container.removeEventListener('touchstart', event => {});
+    container.removeEventListener('touchmove', event => {});
+    container.removeEventListener('touchend', () => {});
+    renderer.dispose();
+};
+};
+
+// Testimonial slider
+const initTestimonialSlider = () => {
+const testimonials = document.querySelectorAll('.testimonial');
+const dots = document.querySelectorAll('.dot');
+let currentIndex = 0;
+
+if (testimonials.length === 0 || dots.length === 0) {
+    console.warn('Testimonial or dot elements not found');
+    return;
+}
+
+const showTestimonial = index => {
+    testimonials.forEach((testimonial, i) => {
+        testimonial.classList.toggle('active', i === index);
+    });
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+    currentIndex = index;
+};
+
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        showTestimonial(index);
+    });
+});
+
+setInterval(() => {
+    currentIndex = (currentIndex + 1) % testimonials.length;
+    showTestimonial(currentIndex);
+}, 5000);
+};
+
+// Form submission handling
+const initForm = () => {
+const form = document.querySelector('.web3-form form');
+const status = document.getElementById('form-status');
+
+if (!form || !status) {
+    console.warn('Form or status element not found');
+    return;
+}
+
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+    status.textContent = 'Отправка...';
+    try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
         });
-    </script>
+
+        if (response.ok) {
+            status.textContent = 'Сообщение успешно отправлено!';
+            status.style.color = '#22c55e';
+            form.reset();
+            setTimeout(() => {
+                status.textContent = 'Используйте форму для безопасной связи.';
+                status.style.color = '#d1d5db';
+            }, 5000);
+        } else {
+            throw new Error('Ошибка отправки формы');
+        }
+    } catch (err) {
+        console.error('Form submission error:', err);
+        status.textContent = 'Ошибка отправки. Попробуйте снова.';
+        status.style.color = '#ef4444';
+        setTimeout(() => {
+            status.textContent = 'Используйте форму для безопасной связи.';
+            status.style.color = '#d1d5db';
+        }, 5000);
+    }
+});
+};
+
+// Initialize components
+document.addEventListener('DOMContentLoaded', () => {
+try {
+    initGlobe();
+    initTestimonialSlider();
+    initForm();
+} catch (err) {
+    console.error('Initialization error:', err);
+}
+});
+</script>
 </body>
 </html>
